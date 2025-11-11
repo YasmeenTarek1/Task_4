@@ -33,6 +33,8 @@ axios.defaults.adapter = httpAdapter;
 beforeAll(async () => {
   const http = axios.create({ baseURL: apiBaseUrl });
 
+  // Generate unique identifier for this test run
+  const testRunId = crypto.randomUUID().slice(0, 8);
 
   const credentials = {
     name: `UI Test User ${crypto.randomUUID()}`,
@@ -49,10 +51,10 @@ beforeAll(async () => {
   window.localStorage.setItem('token', registrationPayload.token);
 
   const seedPerkResponse = await api.post('/perks', {
-    title: 'Integration Preview Benefit',
+    title: `Integration Preview Benefit ${testRunId}`,
     description: 'Baseline record created during setup for deterministic rendering checks.',
     category: 'travel',
-    merchant: 'Integration Merchant',
+    merchant: `Integration Merchant ${testRunId}`,
     discountPercent: 15
   });
 
